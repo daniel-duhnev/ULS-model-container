@@ -38,6 +38,11 @@ RUN python3.10 -m pip install --no-cache-dir \
 RUN git config --global advice.detachedHead false && \
     git clone --depth 1 https://github.com/MIC-DKFZ/nnUNet.git /opt/algorithm/nnunet
 
+# Overlay your custom nnunetv2 extension on top of the cloned code
+COPY --chown=user:user \
+  architecture/extensions/nnunetv2 \
+  /opt/algorithm/nnunet/nnunetv2/
+
 # Install nnU-Net in editable mode plus extras
 RUN python3.10 -m pip install --no-cache-dir \
     -e /opt/algorithm/nnunet \
