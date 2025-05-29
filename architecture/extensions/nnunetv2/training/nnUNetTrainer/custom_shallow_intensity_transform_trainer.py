@@ -1,25 +1,17 @@
 from nnunetv2.training.nnUNetTrainer.nnUNetTrainer import nnUNetTrainer
 from batchgeneratorsv2.transforms.spatial.spatial import SpatialTransform
-from batchgeneratorsv2.transforms.intensity.brightness import MultiplicativeBrightnessTransform
-from batchgeneratorsv2.transforms.intensity.gamma import GammaTransform
-from batchgeneratorsv2.transforms.intensity.gaussian_noise import GaussianNoiseTransform
-from batchgeneratorsv2.transforms.utils.random import RandomTransform
 from batchgeneratorsv2.transforms.base.basic_transform import BasicTransform
+from batchgeneratorsv2.transforms.intensity.gaussian_noise import GaussianNoiseTransform
+from batchgeneratorsv2.transforms.intensity.gamma import GammaTransform
+from batchgeneratorsv2.transforms.intensity.brightness import MultiplicativeBrightnessTransform
+from batchgeneratorsv2.transforms.utils.random import RandomTransform
 
-import numpy as np
 from typing import Union, List, Tuple
+import numpy as np
 
-
-class CustomTrainer(nnUNetTrainer):
-    def _init_(
-        self,
-        plans,
-        configuration,
-        fold,
-        dataset_json,
-        device
-    ):
-        super()._init_(plans, configuration, fold, dataset_json, device=device)
+class ShallowIntensityTrainer(nnUNetTrainer):
+    def __init__(self, plans, configuration, fold, dataset_json, device):
+        super().__init__(plans, configuration, fold, dataset_json, device=device)
         self.num_epochs = 100
 
     def get_training_transforms(
@@ -45,52 +37,21 @@ class CustomTrainer(nnUNetTrainer):
             is_cascaded,
             foreground_labels,
             regions,
-            ignore_label
+            ignore_label,
         )
 
-        # Hardcoded augmentation parameters
-        elastic_prob = 0.2
-        rotation_prob = 0.4
-        scaling_prob = 0.2
-        scaling_range = (0.7, 1.4)
-        noise_prob = 0.15
-        brightness_prob = 0.3
-        gamma_prob = 0.3
-
-        patch_size_spatial = patch_size[1:] if do_dummy_2d_data_aug else patch_size
-
-        # Convert rotation degrees (if they are in degrees) to radians
-        if len(rotation_for_DA) == 0:
-            rotation_rad = (0, 0)
-        else:
-            rotation_rad = tuple(np.deg2rad(x) for x in rotation_for_DA[:2])
-            if len(rotation_rad) == 1:
-                rotation_rad = (rotation_rad[0], rotation_rad[0])
-
-        # Replace existing SpatialTransform with hardcoded version
-        for idx, t in enumerate(transforms.transforms):
+        # Disable spatial randomness
+        for t in transforms.transforms:
             if isinstance(t, SpatialTransform):
-                transforms.transforms[idx] = SpatialTransform(
-                    patch_size=patch_size_spatial,
-                    patch_center_dist_from_border=0,
-                    random_crop=False,
-                    p_elastic_deform=elastic_prob,
-                    elastic_deform_scale=(0, 0.2),
-                    elastic_deform_magnitude=(0, 0.2),
-                    p_synchronize_def_scale_across_axes=0,
-                    p_rotation=rotation_prob,
-                    rotation=rotation_rad,
-                    p_scaling=scaling_prob,
-                    scaling=scaling_range,
-                    p_synchronize_scaling_across_axes=0,
-                    bg_style_seg_sampling=True,
-                    mode_seg='bilinear',
-                    border_mode_seg='zeros',
-                    center_deformation=True,
-                    padding_mode_image='zeros'
-                )
+                t.p_elastic_deform = 0.0
+                t.p_rotation = 0.0
+                t.p_scaling = 0.0
 
-        # Add extra intensity transforms with hardcoded probabilities
+        # Add conservative intensity transforms
+        brightness_prob = 0.15
+        gamma_prob = 0.15
+        noise_prob = 0.05
+
         new_transforms = []
         for t in transforms.transforms:
             new_transforms.append(t)
@@ -98,7 +59,7 @@ class CustomTrainer(nnUNetTrainer):
                 new_transforms.extend([
                     RandomTransform(
                         MultiplicativeBrightnessTransform(
-                            multiplier_range=(0.7, 1.3),
+                            multiplier_range=(0.85, 1.15),
                             synchronize_channels=False,
                             p_per_channel=1
                         ),
@@ -106,7 +67,7 @@ class CustomTrainer(nnUNetTrainer):
                     ),
                     RandomTransform(
                         GammaTransform(
-                            gamma=(0.7, 1.5),
+                            gamma=(0.8, 1.2),
                             p_invert_image=0,
                             synchronize_channels=False,
                             p_per_channel=1,
@@ -116,7 +77,7 @@ class CustomTrainer(nnUNetTrainer):
                     ),
                     RandomTransform(
                         GaussianNoiseTransform(
-                            noise_variance=(0, 0.1),
+                            noise_variance=(0, 0.01),
                             p_per_channel=1,
                             synchronize_channels=True
                         ),
@@ -140,5 +101,5 @@ class CustomTrainer(nnUNetTrainer):
             is_cascaded=is_cascaded,
             foreground_labels=foreground_labels,
             regions=regions,
-            ignore_label=ignore_label
+            ignore_label=ignore_label,
         )
