@@ -34,7 +34,7 @@ This repo has the following structure:
 - `/train.sh` is an example of how to run a job to train the model on the cluster using a custom trainer with your desired settings.
 
 ## Custom Trainers
-The table below summarises the custom trainers used for the various experiments exploring different data augmentation strategies.
+The table below summarises the custom trainers found under `/architecture/extensions/nnunetv2/training/nnUNetTrainer/` used for the various experiments exploring different data augmentation strategies.
 
 | File Name                                       | Trainer Class Name                    | Functionality                                                                            |
 |-------------------------------------------------|---------------------------------------|------------------------------------------------------------------------------------------|
