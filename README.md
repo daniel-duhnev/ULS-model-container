@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the code to build a GrandChallenge algorithm usign the [nnUnetv2](https://github.com/MIC-DKFZ/nnUNet/tree/master) framework. It is based on the [oncology-ULS-fast-for-challenge](https://github.com/DIAGNijmegen/oncology-ULS-fast-for-challenge/tree/main) repository with additional custom trainers which explore different data augmentation strategies.
+This repository contains the code to build a GrandChallenge algorithm usign the [nnUnetv2](https://github.com/MIC-DKFZ/nnUNet/tree/master) framework. It is based on the [oncology-ULS-fast-for-challenge](https://github.com/DIAGNijmegen/oncology-ULS-fast-for-challenge/tree/main) repository with additional custom trainers which explore different data augmentation strategies. All models have been trained using [nnUNet v2.6.0](https://github.com/MIC-DKFZ/nnUNet/releases/tag/v2.6.0) and Python 3.10.12.
 
 ## The Data
 
@@ -34,6 +34,19 @@ This repo has the following structure:
 - `/train.sh` is an example of how to run a job to train the model on the cluster using a custom trainer with your desired settings.
 
 ## Custom Trainers
+The table below summarises the custom trainers used for the various experiments exploring different data augmentation strategies.
+
+| File Name                                       | Trainer Class Name                    | Functionality                                                                            |
+|-------------------------------------------------|---------------------------------------|------------------------------------------------------------------------------------------|
+| `custom_no_aug_trainer.py`                      | CustomNoAugTrainer                    | Training without any data augmentation, except for padding and cropping                  |
+| `custom_trainer_spatial_only.py`                | CustomSpatialOnlyTrainer              | Removed all intensity transforms from default nnUNet trainer                             |
+| `custom_trainer_intensity_only.py`              | CustomIntensityOnlyTrainer            | Removed all spatial transforms (except padding and cropping) from default nnUNet trainer |
+| `shallow_spatial_transform_trainer.py`          | CustomShallowSpatialTrainer           | Modified spatial transforms and removed intensity ones completely                        |
+| `shallow_spatial_default_intensity_trainer.py`  | ShallowSpatialDefaultIntensityTrainer | Modified spatial transforms and kept intensity ones from the default nnUNet trainer      |
+| `custom_shallow_intensity_transform_trainer.py` | ShallowIntensityTrainer               |                                                                                          |
+| `custom_shallow_trainer.py`                     | CustomShallowTrainer                  |                                                                                          |
+| `custom_improved_trainer.py`                    | CustomImprovedTrainer                 | Custom spatial transforms and modified intensity pipeline with lesion-suited values      |
+
 
 ## References
 
