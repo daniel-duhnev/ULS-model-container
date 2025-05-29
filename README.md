@@ -22,7 +22,7 @@ The fully annotated data used to train a model using the custom trainers can be 
 | Radboudumc-Bone [de Grauw et al., 2023a]                 | Pancreas        | 744               |
 | Radboudumc-Pancreas [de Grauw et al., 2023a]             | Various lesions | 124               |
 
-The data was preprocessed and the model was trained on the ICIS computing cluster. More information on the usage of the cluster can be found on the [iCIS Intra Wiki](https://wiki.icis-intra.cs.ru.nl/Cluster) as well as the [GitLab Wiki](https://gitlab.science.ru.nl/das-dl/gpu-cluster-wiki).
+The data was preprocessed and the model was trained on the ICIS computing cluster. More information on the usage of the cluster can be found on the [iCIS Intra Wiki](https://wiki.icis-intra.cs.ru.nl/Cluster) as well as the [GitLab Wiki](https://gitlab.science.ru.nl/das-dl/gpu-cluster-wiki). Due to cluster limitations and restrictions, experiments were ran using 1/7th of each dataset totalling 1030 image-label pairs. Each experiment averaged around 6 hours of training time.
 
 ## Repository Structure
 
