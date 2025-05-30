@@ -54,12 +54,12 @@ The table below summarises the custom trainers found under `/architecture/extens
 
 ## References
 
-- Antonelli, M., Reinke, A., Bakas, S., Farahani, K., Kopp-Schneider, A., Landman, B. A., … & Cardoso, M. J. (2022). The medical segmentation decathlon. *Nature Communications*, 13(1), 4128.
-- Heller, N., Isensee, F., Trofimova, D., Tejpaul, R., Zhao, Z., Chen, H., … & Weight, C. (2023). The KiTS21 Challenge: Automatic segmentation of kidneys, renal tumors, and renal cysts in corticomedullary-phase CT. *arXiv preprint* arXiv:2307.01984.
-- Bilic, P., Christ, P., Li, H. B., Vorontsov, E., Ben-Cohen, A., Kaissis, G., … & Menze, B. (2023). The liver tumor segmentation benchmark (LiTS). *Medical Image Analysis*, 84, 102680.
+- Antonelli, M., Reinke, A., Bakas, S., Farahani, K., Kopp-Schneider, A., Landman, B. A., et al. (2022). The medical segmentation decathlon. *Nature Communications*, 13(1), 4128.
+- Heller, N., Isensee, F., Trofimova, D., Tejpaul, R., Zhao, Z., Chen, H., et al. The KiTS21 Challenge: Automatic segmentation of kidneys, renal tumors, and renal cysts in corticomedullary-phase CT. *arXiv preprint* arXiv:2307.01984.
+- Bilic, P., Christ, P., Li, H. B., Vorontsov, E., Ben-Cohen, A., Kaissis, G., et al. The liver tumor segmentation benchmark (LiTS). *Medical Image Analysis*, 84, 102680.
 - Roth, H., Lu, L., Seff, A., Cherry, K. M., Hoffman, J., Wang, S., Liu, J., Turkbey, E., & Summers, R. M. (2015). A new 2.5 D representation for lymph node detection in CT [Data set]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2015.AQIIDCNM
 - Armato III, S. G., McLennan, G., Bidaut, L., et al. (2011). The lung image database consortium (LIDC) and image database resource initiative (IDRI): a completed reference database of lung nodules on CT scans. *Medical Physics*, 38(2), 915–931.
-- Pedrosa, J., Aresta, G., Ferreira, C., Atwal, G., Phoulady, H. A., Chen, X., … & Campilho, A. (2021). LNDb challenge on automatic lung cancer patient management. *Medical Image Analysis*, 70, 102027.
+- Pedrosa, J., Aresta, G., Ferreira, C., Atwal, G., Phoulady, H. A., Chen, X., et al. (2021). LNDb challenge on automatic lung cancer patient management. *Medical Image Analysis*, 70, 102027.
 - Yan, K., Wang, X., Lu, L., & Summers, R. M. (2018). DeepLesion: automated mining of large-scale lesion annotations and universal lesion detection with deep learning. *Journal of Medical Imaging*, 5(3), 036501.
 - de Grauw, M. J. J., Scholten, E. Th., Smit, E. J., Rutten, M. J. C. M., Prokop, M., van Ginneken, B., & Hering, A. (2025). The ULS23 challenge: A baseline model and benchmark dataset for 3D universal lesion segmentation in computed tomography. *Medical Image Analysis*, 102, 103525. https://doi.org/10.1016/j.media.2025.103525
 
