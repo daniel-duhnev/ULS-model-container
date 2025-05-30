@@ -3,11 +3,17 @@ FROM nvidia/cuda:12.2.0-runtime-ubuntu20.04 AS base
 # Remove old CUDA apt source
 RUN rm /etc/apt/sources.list.d/cuda.list
 
-# 1) Install tooling to add PPAs
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
+# 1) Switch to HTTPS and install tooling (with retry on missing)
+RUN sed -i \
+      -e 's|http://archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' \
+      -e 's|http://security.ubuntu.com/ubuntu|https://security.ubuntu.com/ubuntu|g' \
+    /etc/apt/sources.list \
+ && apt-get update --fix-missing \
+ && apt-get install -y --no-install-recommends \
+      ca-certificates \
+      apt-transport-https \
+      software-properties-common \
+ && rm -rf /var/lib/apt/lists/*
 
 # 2) Add deadsnakes PPA and install Python 3.10 and essentials
 RUN add-apt-repository ppa:deadsnakes/ppa && \
