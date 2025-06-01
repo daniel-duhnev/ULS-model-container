@@ -47,7 +47,8 @@ class Uls23(SegmentationAlgorithm):
         self.predictor = nnUNetPredictor(
             tile_step_size=0.5,
             use_gaussian=True,
-            use_mirroring=False, # False is faster but less accurate
+            # Enabling TTA can improve results but comes with computation costs requiring more runtime 
+            use_mirroring=True,
             device=self.device,
             verbose=False,
             verbose_preprocessing=False,
