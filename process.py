@@ -48,7 +48,7 @@ class Uls23(SegmentationAlgorithm):
             tile_step_size=0.5,
             use_gaussian=True,
             # Enabling TTA can improve results but comes with computation costs requiring more runtime 
-            use_mirroring=True,
+            use_mirroring=False,
             device=self.device,
             verbose=False,
             verbose_preprocessing=False,
