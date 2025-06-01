@@ -35,24 +35,23 @@ The fully annotated data used to train a model using the custom trainers can be 
 
 ## Data Preprocessing and Model Training
 
-The data was preprocessed and the model was trained on the ICIS computing cluster. More information on the usage of the cluster can be found on the [iCIS Intra Wiki](https://wiki.icis-intra.cs.ru.nl/Cluster) as well as the [GitLab Wiki](https://gitlab.science.ru.nl/das-dl/gpu-cluster-wiki). Due to cluster limitations and restrictions, experiments were ran using 1/7th of each dataset totalling 1030 image-label pairs. The raw data was downloaded and stored in a single folder. The full dataset can be accessed under the path `/vol/csedu-nobackup/course/IMC037_aimi/group18/daniel/nnUNet_raw/` on the cluster, while the smaller dataset can be found under `/vol/csedu-nobackup/course/IMC037_aimi/group18/daniel/nnUNet_raw_test`.
+The data was preprocessed and the model was trained on the ICIS computing cluster. More information on the usage of the cluster can be found on the [iCIS Intra Wiki](https://wiki.icis-intra.cs.ru.nl/Cluster) as well as the [GitLab Wiki](https://gitlab.science.ru.nl/das-dl/gpu-cluster-wiki). Due to cluster limitations and restrictions, experiments were ran for 100 epochs using 1/7th of each dataset totalling 1030 image-label pairs. The raw data was downloaded and stored in a single folder. The full dataset can be accessed under the path `/vol/csedu-nobackup/course/IMC037_aimi/group18/daniel/nnUNet_raw/` on the cluster, while the smaller dataset can be found under `/vol/csedu-nobackup/course/IMC037_aimi/group18/daniel/nnUNet_raw_test`.
 
 To submit a job on the cluster a `sbatch` command followed by the job script was ran. Example job script are included in `preprocess.sh` and `train.sh` in the utils directory of this repo. Each model training experiment on the smaller dataset averaged around 4 hours. Key parts of the bash scripts mentioned include the setting of the required variables `nnUNet_raw`, `nnUNet_preprocessed`, and `nnUNet_results` for the nnunet framework. To preprocess the data the `nnUNetv2_plan_and_preprocess -d 1` command was used. For training the main command was `nnUNetv2_train -tr <trainer-class-name> 1 3d_fullres 0`, where the custom trainer class name was supplied after the `-tr` flag.
 
 ## Custom Trainers
 The table below summarises the custom trainers found under `/architecture/extensions/nnunetv2/training/nnUNetTrainer/` used for the various experiments exploring different data augmentation strategies.
 
-| File Name                                       | Trainer Class Name                    | Functionality                                                                            |
-|-------------------------------------------------|---------------------------------------|------------------------------------------------------------------------------------------|
-| `custom_no_aug_trainer.py`                      | CustomNoAugTrainer                    | Training without any data augmentation, except for padding and cropping                  |
-| `custom_trainer_spatial_only.py`                | CustomSpatialOnlyTrainer              | Removed all intensity transforms from default nnUNet trainer                             |
-| `custom_trainer_intensity_only.py`              | CustomIntensityOnlyTrainer            | Removed all spatial transforms (except padding and cropping) from default nnUNet trainer |
-| `shallow_spatial_transform_trainer.py`          | CustomShallowSpatialTrainer           | Modified spatial transforms and removed intensity ones completely                        |
-| `shallow_spatial_default_intensity_trainer.py`  | ShallowSpatialDefaultIntensityTrainer | Modified spatial transforms and kept intensity ones from the default nnUNet trainer      |
-| `custom_shallow_intensity_transform_trainer.py` | ShallowIntensityTrainer               |                                                                                          |
-| `custom_shallow_trainer.py`                     | CustomShallowTrainer                  |                                                                                          |
-| `custom_improved_trainer.py`                    | CustomImprovedTrainer                 | Custom spatial transforms and modified intensity pipeline with lesion-suited values      |
-
+| File Name                                       | Trainer Class Name                    | Functionality                                                                                  |
+|-------------------------------------------------|---------------------------------------|------------------------------------------------------------------------------------------------|
+| `custom_no_aug_trainer.py`                      | CustomNoAugTrainer                    | Training without any data augmentation, except for padding and cropping                        |
+| `custom_trainer_spatial_only.py`                | CustomSpatialOnlyTrainer              | Removed all intensity transforms from default nnUNet trainer                                   |
+| `custom_trainer_intensity_only.py`              | CustomIntensityOnlyTrainer            | Removed all spatial transforms (except padding and cropping) from default nnUNet trainer       |
+| `shallow_spatial_transform_trainer.py`          | CustomShallowSpatialTrainer           | Modified spatial transforms and removed intensity ones completely                              |
+| `shallow_spatial_default_intensity_trainer.py`  | ShallowSpatialDefaultIntensityTrainer | Modified spatial transforms and kept intensity ones from the default nnUNet trainer            |
+| `custom_shallow_intensity_transform_trainer.py` | ShallowIntensityTrainer               | Removed all spatial transforms and enabled custom intensity transforms                         |
+| `custom_shallow_trainer.py`                     | CustomShallowTrainer                  | Combined custom spatial transform and custom intensity transform from previous experiments     |
+| `custom_improved_trainer.py`                    | CustomImprovedTrainer                 | Combined custom spatial transforms and modified intensity pipeline with lesion-suited values   |
 
 ## References
 
