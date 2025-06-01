@@ -12,6 +12,7 @@ This repo has the following structure:
 - `/process.py` is where the model is loaded, predictions are made and postprocessing is applied. If you're testing this model locally and want to use a CPU instead of a GPU, you can do this by changing 'cuda' to 'cpu' in line 23 of process.py.
 - `utils/preprocess.sh` is an example of how to preprocess the raw data using a batch job on the cluster.
 - `utils/train.sh` is an example of how to run a job to train the model on the cluster using a custom trainer with your desired settings.
+- `utils/sample.sh` - sample every 7th image from a dataset to create a smaller subset of the data used for experiments.
 - `utils/walk_and_generate_dataset_json.py` - generate a dataset.json based on a dataset required by the nnUNet framework.
 
 ## The Data
